@@ -9,7 +9,7 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        index: true
+        // index: true
     },
     email: {
         type: String,
@@ -17,12 +17,11 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        index: true,
-        match: [/\S+@\S+\.\S+/, 'Please use a valid email address']
+        // index: true,
     },
     password: {
         type: String,
-        required: [true, 'Password is required'],
+        // required: [true, 'Password is required'],
     },
     fullname: {
         type: String,
@@ -32,6 +31,10 @@ const userSchema = new Schema({
     refreshToken: {
         type: String,
         default: ''
+    },
+    isPremium: {
+        type: Boolean,
+        default: false,
     },
     googleId: {
         type: String,
@@ -74,10 +77,15 @@ userSchema.methods.generateAccessToken = function() {
     }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
 };
 
+
+// Method to generate refresh token
 userSchema.methods.generateRefreshToken = function() {
-    return jwt.sign({
-        _id: this._id,
-    }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY });
+    const refreshToken = jwt.sign({ 
+        id: this._id 
+    }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY});
+    this.refreshToken = refreshToken;
+    return refreshToken;
 };
 
 export const User = mongoose.model('User', userSchema);
+export default User;

@@ -12,6 +12,7 @@ const generateAccessandRefreshToken = async(userId) => {
         return { accessToken, refreshToken };
     } catch (error) {
         console.log(error);
+        throw new Error('Error generating tokens or saving user');
     }
 };
 
@@ -21,7 +22,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     const { username, email, password, fullname} = req.body;
     
     if ([username, email, password, fullname].some((field) => !field || field.trim() === '')) {
-        res.status(400).json({ status: 'fail', message: 'All fields are required' });
+        return res.status(400).json({ status: 'fail', message: 'All fields are required' });
     }
 
     const existedUser = await User.findOne({
@@ -37,6 +38,10 @@ const registerUser = asyncHandler(async (req, res, next) => {
             password, 
             fullname,
         });
+        
+        // Generate and set refresh token
+        const refreshToken = newUser.generateRefreshToken();
+        await newUser.save();
         
         const tokens = await generateAccessandRefreshToken(newUser._id);
         res.status(201).json({ status: 'success', message: 'User created successfully', newUser, ...tokens });
@@ -66,7 +71,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     const { accessToken, refreshToken } = await generateAccessandRefreshToken(userDoc._id);
-    const loggedInUser = await User.findById(userDoc._id).select('-password -otp -otpExpiry -refreshToken');
+    const loggedInUser = await User.findById(userDoc._id).select('-password -refreshToken');
 
     const options = {
         httpOnly: true,

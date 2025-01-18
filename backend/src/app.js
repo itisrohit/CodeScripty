@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import passport from 'passport';
 import session from 'express-session';
-import './config/passportGoogle.js';
+import './config/passport.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,10 +40,14 @@ app.get('/test', (req, res) => {
 
 //routes import
 import userRouter from './routes/user.routes.js';
+import pistonRouter from './routes/piston.routes.js'; 
+import razorpayRouter from './routes/razorpay.routes.js';
 
 
 //routes declaration
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/code-execution', pistonRouter)
+app.use('/api/v1/razorpay', razorpayRouter);
 
 
 
