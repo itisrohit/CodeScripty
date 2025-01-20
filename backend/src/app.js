@@ -41,12 +41,16 @@ app.get('/test', (req, res) => {
 //routes import
 import userRouter from './routes/user.routes.js';
 import pistonRouter from './routes/piston.routes.js'; 
+import fileRouter from './routes/file.routes.js';
+import folderRouter from './routes/folder.routes.js';
 import razorpayRouter from './routes/razorpay.routes.js';
 
 
 //routes declaration
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/code-execution', pistonRouter)
+app.use('/api/v1/files', fileRouter);
+app.use('/api/v1/folders', folderRouter);
 app.use('/api/v1/razorpay', razorpayRouter);
 
 
