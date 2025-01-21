@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.light {
+    --background: 251, 251, 251;
+    --primary-text: 232, 249, 255;
+    --secondary-text: 196, 217, 255;
+    --keywords: 197, 186, 255;
+    --navbar-background: 240, 240, 240; 
+    --navbar-text: 50, 50, 50;
+    --navbar-button-bg: 232, 249, 255;
+    --navbar-button-text: 50, 50, 50;
+    --navbar-button-bg-hover: 196, 217, 255;
+    --navbar-button-text-hover: 50, 50, 50;
+    --navbar-button-bg-active: 197, 186, 255;
+    --navbar-button-text-active: 251, 251, 251;
+    --navbar-button-bg-disabled: 240, 240, 240;
+    --navbar-button-text-disabled: 200, 200, 200;
+    
+
+
+}

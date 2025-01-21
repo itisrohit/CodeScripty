@@ -54,5 +54,5 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
         return res.status(401).json({ status: 'fail', message: 'Unauthorized' });
     }
 });
-
+ 
 export { verifyJWT };
