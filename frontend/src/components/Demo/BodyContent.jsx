@@ -1,25 +1,69 @@
-import React from 'react'
-import MonacoEditor from '../Home/MonacoEditor'
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import MonacoEditor from "../MonacoEditor";
 
-const BodyContent = () => {
+const BodyContent = ({boilerplate}) => {
+  const selectedLanguage = useSelector((state) => state.language.selectedLanguage);
+  const [isLanguageSelected, setIsLanguageSelected] = useState(!!selectedLanguage);
+
+  useEffect(() => {
+    setIsLanguageSelected(!!selectedLanguage);
+  }, [selectedLanguage]);
+
   return (
-    <div className="w-screen h-[calc(100vh-13vh)] flex justify-center">
-        <div className="w-[80em] h-full flex">
-            <div className="w-[65em] h-full border border-teal-400">
-                <MonacoEditor />
+    <div className="w-screen h-[calc(100vh-13vh)] flex justify-center px-4">
+      <div className="relative w-full max-w-[80em] h-full">
+        <div
+          className={`w-full h-full flex flex-col md:flex-row ${
+            !isLanguageSelected ? "blur-sm" : ""
+          }`}
+        >
+          <div className="w-full md:w-[65%] flex flex-col h-full">
+            <div className="h-[2.5em] flex justify-between border border-green-500">
+              <div className="w-[14em] h-full flex justify-center items-center border border-white">
+                <p>Untitled</p>
+              </div>
+              <div className="w-[15em] h-full flex justify-center items-center">
+                <button className="w-[5em] h-[1.8em] bg-navbar-button-bg rounded-[0.5em] active:bg-navbar-button-bg-active active:scale-95">
+                  Run
+                </button>
+              </div>
             </div>
-            <div className="w-[35em] border border-blue-500">
-                <div className="w-full h-[6em] flex flex-col justify-between border border-fuchsia-600">
-                    <p className=''>Input</p>
-                    <div className="h-[3.5em] flex justify-center border border-red-500">
-                    <input className='w-[95%] h-full' type="text" placeholder='Give an input'/>
-                    </div>
-                </div>
-                <div className="w-full h-[calc(100%-6em)] border border-lime-300"></div>
+            <MonacoEditor language={selectedLanguage} boilerplate= {boilerplate} />
+          </div>
+          <div className="w-full md:w-[35%] mt-4 md:mt-0">
+            <div className="w-full h-[6em] flex flex-col justify-between">
+              <p className="p-[0.5em]">Input:</p>
+              <div className="h-[3.5em] flex justify-center">
+                <input
+                  className="w-[95%] h-full focus:outline-none"
+                  type="text"
+                  placeholder="Give an input"
+                />
+              </div>
             </div>
+            <div className="w-full h-[calc(100%-6em)] flex flex-col justify-between border border-lime-300">
+              <div className="p-[0.5em] h-[3em] border border-gray-300">
+                <p>Output:</p>
+              </div>
+              <div className="h-[calc(100%-3em)] border border-red-400"></div>
+            </div>
+          </div>
         </div>
-    </div>
-  )
-}
 
-export default BodyContent
+        {/* Overlay for "Please select a language" */}
+        {!isLanguageSelected && (
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-md shadow-md text-center">
+              <p className="text-lg font-semibold text-gray-700">
+                Please select a language to proceed.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default BodyContent;

@@ -19,7 +19,7 @@ router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
     try {
         const { accessToken, refreshToken } = req.authInfo;
-        console.log(req.authInfo);
+        // console.log(req.authInfo);
         // console.log('accessToken: ', accessToken);
         // console.log('refreshToken: ', refreshToken);
         // const user = req.user;

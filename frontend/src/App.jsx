@@ -1,21 +1,26 @@
 // App.js
-import './App.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Error from './pages/Error';
-import Home from './pages/Home';
-import Demo from './pages/Demo';
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Error from "./pages/Error";
+import Home from "./pages/Home";
+import Demo from "./pages/Demo";
+import LanguageIDE from "./pages/LanguageIDE";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Home />,
   },
   {
-    path: '/demo',
+    path: "/demo",
     element: <Demo />,
   },
   {
-    path: '*',
+    path: "/demo/:language",
+    element: <LanguageIDE />,
+  },
+  {
+    path: "*",
     element: <Error />,
   },
 ]);
@@ -23,7 +28,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="h-screen light">
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </div>
   );
 }

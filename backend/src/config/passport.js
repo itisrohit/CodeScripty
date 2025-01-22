@@ -29,7 +29,6 @@ passport.use(new GoogleStrategy({
     } catch (error) {
         done(error, null);
     }
-    
 }));
 
 

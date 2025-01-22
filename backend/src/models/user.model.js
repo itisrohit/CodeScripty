@@ -44,7 +44,7 @@ const userSchema = new Schema({
     githubId: {
         type: String,
         unique: true,
-        sparse: true
+        sparse: true 
     }
 }, {
     timestamps: true
@@ -76,6 +76,7 @@ userSchema.methods.generateAccessToken = function() {
         fullname: this.fullname,
     }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
 };
+
 
 
 // Method to generate refresh token
