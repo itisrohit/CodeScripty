@@ -15,10 +15,10 @@ export const fetchLanguages = createAsyncThunk('language/fetchLanguages', async 
 export const languageSlice = createSlice({
   name: 'language',
   initialState: {
-    selectedLanguage: null,
+    selectedLanguage: localStorage.getItem('selectedLanguage') || null,
     additionalData: {
-      version: null,
-      boilerplate: null,
+      version: localStorage.getItem('selectedVersion') || null,
+      boilerplate: localStorage.getItem('boilerplate') || null,
     },
     languages: [],
     status: 'idle',
@@ -29,6 +29,9 @@ export const languageSlice = createSlice({
       state.selectedLanguage = action.payload.language;
       state.additionalData.version = action.payload.additionalData.version;
       state.additionalData.boilerplate = action.payload.additionalData.boilerplate;
+      localStorage.setItem('selectedLanguage', action.payload.language);
+      localStorage.setItem('selectedVersion', action.payload.additionalData.version);
+      localStorage.setItem('boilerplate', action.payload.additionalData.boilerplate);
     },
   },
   extraReducers: (builder) => {

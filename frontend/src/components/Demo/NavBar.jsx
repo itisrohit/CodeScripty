@@ -22,12 +22,22 @@ const NavBar = () => {
 
   useEffect(() => {
     dispatch(fetchLanguages());
-  }, [dispatch]);
+    const storedLanguage = localStorage.getItem('selectedLanguage');
+    const storedVersion = localStorage.getItem('selectedVersion');
+    const storedBoilerplate = localStorage.getItem('boilerplate');
+    if (storedLanguage && storedVersion && storedBoilerplate) {
+      dispatch(setSelectedLanguage({ language: storedLanguage, additionalData: { version: storedVersion, boilerplate: storedBoilerplate } }));
+    } else {
+      navigate('/demo');
+    }
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     const path = location.pathname;
     if (!path.startsWith("/demo/")) {
       dispatch(setSelectedLanguage({ language: null, additionalData: { version: null, boilerplate: null } }));
+      localStorage.clear()
+
     }
   }, [location, dispatch]);
 

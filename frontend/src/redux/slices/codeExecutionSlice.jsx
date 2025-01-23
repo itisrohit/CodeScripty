@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Async thunk to run code
 export const runCode = createAsyncThunk('codeExecution/runCode', async ({ language, version, code, stdin }) => {
-  const response = await axios.post('http://localhost:8080/api/v1/code-execution/run', {
+  const response = await axios.post(`${import.meta.env.VITE_API_URL}/code-execution/run`, {
     language,
     version,
     code,
