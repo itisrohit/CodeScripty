@@ -17,6 +17,80 @@ CodeScripty is an online Integrated Development Environment (IDE) that supports 
 - **Authentication**: Passport.js (Google and GitHub OAuth)
 - **Payment Integration**: Razorpay
 
+## Directory Structure
+
+Directory structure:
+└── itisrohit-codescripty/
+    ├── README.md
+    ├── backend/
+    │   ├── package.json
+    │   ├── public/
+    │   │   └── temp/
+    │   │       └── .gitkeep
+    │   └── src/
+    │       ├── app.js
+    │       ├── index.js
+    │       ├── config/
+    │       │   ├── db.js
+    │       │   └── passport.js
+    │       ├── controllers/
+    │       │   ├── file.controller.js
+    │       │   ├── folder.controller.js
+    │       │   ├── piston.controller.js
+    │       │   ├── razorpay.controller.js
+    │       │   └── user.controller.js
+    │       ├── middlewares/
+    │       │   └── auth.middleware.js
+    │       ├── models/
+    │       │   ├── file.model.js
+    │       │   ├── folder.model.js
+    │       │   ├── order.model.js
+    │       │   └── user.model.js
+    │       ├── routes/
+    │       │   ├── file.routes.js
+    │       │   ├── folder.routes.js
+    │       │   ├── piston.routes.js
+    │       │   ├── razorpay.routes.js
+    │       │   └── user.routes.js
+    │       └── utils/
+    │           ├── asyncHandler.js
+    │           ├── piston.js
+    │           └── razorpay.js
+    └── frontend/
+        ├── README.md
+        ├── eslint.config.js
+        ├── index.html
+        ├── package.json
+        ├── postcss.config.js
+        ├── tailwind.config.js
+        ├── vite.config.js
+        ├── .gitignore
+        ├── public/
+        └── src/
+            ├── App.css
+            ├── App.jsx
+            ├── index.css
+            ├── main.jsx
+            ├── assets/
+            ├── components/
+            │   ├── MonacoEditor.jsx
+            │   └── Demo/
+            │       ├── BodyContent.jsx
+            │       └── NavBar.jsx
+            ├── hooks/
+            │   └── useCodeExecution.jsx
+            ├── pages/
+            │   ├── Demo.jsx
+            │   ├── Error.jsx
+            │   ├── Home.jsx
+            │   └── LanguageIDE.jsx
+            └── redux/
+                ├── store.jsx
+                └── slices/
+                    ├── codeExecutionSlice.jsx
+                    └── languageSlice.jsx
+
+
 ## Getting Started
 
 ### Prerequisites
