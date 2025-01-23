@@ -6,7 +6,7 @@ import {
   fetchLanguages,
 } from "../../redux/slices/languageSlice";
 
-const NavBar = ({ language, version }) => {
+const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,25 +15,19 @@ const NavBar = ({ language, version }) => {
   const selectedLanguage = useSelector(
     (state) => state.language.selectedLanguage
   );
+  const selectedVersion = useSelector(
+    (state) => state.language.additionalData.version
+  );
   const languages = useSelector((state) => state.language.languages);
-  // console.log(version);
-  // console.log(boilerplate);
 
   useEffect(() => {
     dispatch(fetchLanguages());
   }, [dispatch]);
 
-
-  useEffect(() => {
-    if (language) {
-      dispatch(setSelectedLanguage(language));
-    }
-  }, [language, dispatch]);
-
   useEffect(() => {
     const path = location.pathname;
     if (!path.startsWith("/demo/")) {
-      dispatch(setSelectedLanguage(null));
+      dispatch(setSelectedLanguage({ language: null, additionalData: { version: null, boilerplate: null } }));
     }
   }, [location, dispatch]);
 
@@ -46,14 +40,13 @@ const NavBar = ({ language, version }) => {
     if (selectedLang) {
       const data = {
         language: selectedLang.language,
-        version: selectedLang.version,
-        boilerplate: selectedLang.boilerplate,
+        additionalData: {
+          version: selectedLang.version,
+          boilerplate: selectedLang.boilerplate,
+        },
       };
-      dispatch(setSelectedLanguage(selectedLang.language));
-      navigate(
-        `/demo/${selectedLang.language}?version=${selectedLang.version}`,
-        { state: data }
-      );
+      dispatch(setSelectedLanguage(data));
+      navigate(`/demo/${selectedLang.language}&version=${selectedLang.version}`);
       setIsOpen(false); // Close dropdown after selection
     }
   };
@@ -70,6 +63,8 @@ const NavBar = ({ language, version }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const displayLanguage = selectedLanguage === 'csharp' ? 'c#' : selectedLanguage;
 
   return (
     <div className="w-screen h-[12vh] flex justify-center items-center px-4">
@@ -91,23 +86,26 @@ const NavBar = ({ language, version }) => {
             >
               <p>
                 {selectedLanguage
-                  ? `${selectedLanguage} (${version})`
+                  ? `${displayLanguage} (${selectedVersion})`
                   : "Select Language"}
               </p>
             </div>
             {isOpen && (
               <div className="absolute mt-2 w-[12em] h-[10em] bg-white border border-gray-300 rounded shadow-lg overflow-y-auto z-50">
                 <ul>
-                  {languages.map((language) => (
-                    <li
-                      key={language.language}
-                      value={JSON.stringify(language)}
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={handleLanguageSelect}
-                    >
-                      {`${language.language} (${language.version})`}
-                    </li>
-                  ))}
+                  {languages.map((language) => {
+                    const displayLanguage = language.language === 'csharp' ? 'c#' : language.language;
+                    return (
+                      <li
+                        key={language.language}
+                        value={JSON.stringify(language)}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={handleLanguageSelect}
+                      >
+                        {`${displayLanguage} (${language.version})`}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}

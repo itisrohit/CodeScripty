@@ -16,13 +16,19 @@ export const languageSlice = createSlice({
   name: 'language',
   initialState: {
     selectedLanguage: null,
+    additionalData: {
+      version: null,
+      boilerplate: null,
+    },
     languages: [],
     status: 'idle',
     error: null,
   },
   reducers: {
     setSelectedLanguage: (state, action) => {
-      state.selectedLanguage = action.payload;
+      state.selectedLanguage = action.payload.language;
+      state.additionalData.version = action.payload.additionalData.version;
+      state.additionalData.boilerplate = action.payload.additionalData.boilerplate;
     },
   },
   extraReducers: (builder) => {
@@ -32,7 +38,7 @@ export const languageSlice = createSlice({
       })
       .addCase(fetchLanguages.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.languages = action.payload; // Ensure the state is updated with the correct data
+        state.languages = action.payload;
       })
       .addCase(fetchLanguages.rejected, (state, action) => {
         state.status = 'failed';

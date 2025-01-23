@@ -1,25 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Editor } from '@monaco-editor/react';
+import { setBoilerplate } from '../redux/slices/codeExecutionSlice';
 
-const MonacoEditor = ({ language, boilerplate}) => {
+const MonacoEditor = () => {
   const editorRef = useRef();
-  const [value, setValue] = useState(boilerplate);
+  const dispatch = useDispatch();
+  const selectedLanguage = useSelector((state) => state.language.selectedLanguage);
+  const selectedBoilerplate = useSelector((state) => state.language.additionalData.boilerplate);
+  const boilerplate = useSelector((state) => state.codeExecution.boilerplate) || '';
+
+  useEffect(() => {
+    if (selectedBoilerplate) {
+      dispatch(setBoilerplate(selectedBoilerplate));
+    }
+  }, [selectedBoilerplate, dispatch]);
 
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
   };
 
+  // Convert 'c++' to 'cpp' for Monaco Editor
+  const monacoLanguage = selectedLanguage === 'c++' ? 'cpp' : selectedLanguage === 'csharp' ? 'c#' : selectedLanguage;
+
   return (
     <div className="h-full">
       <Editor
         height="100%"
         theme="vs-light"
-        language={language}
-        defaultValue="// some comment"
+        language={monacoLanguage}
+        defaultValue={boilerplate}
         onMount={onMount}
-        value={value}
-        onChange={(newValue) => setValue(newValue)}
+        value={boilerplate}
+        onChange={(newValue) => dispatch(setBoilerplate(newValue))}
         options={{
           fontSize: 14,
           minimap: { enabled: false },
