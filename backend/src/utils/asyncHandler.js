@@ -4,6 +4,6 @@ const asyncHandler = (requestHandler) => {
             .resolve(requestHandler(req, res, next))
             .catch(next);
     };
-}
+};
 
 export { asyncHandler };
